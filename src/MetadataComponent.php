@@ -39,6 +39,9 @@ class MetadataComponent extends Control implements IMetadataComponent {
 	}
 
 	public function renderFavicon(): void {
+		if ($this->metadata->getFavicon()) {
+			return;
+		}
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/favicon.latte');
 
@@ -59,6 +62,9 @@ class MetadataComponent extends Control implements IMetadataComponent {
 	}
 
 	public function renderTopBar(?string $color = null): void {
+		if (!$color && !$this->metadata->getThemeColor()) {
+			return;
+		}
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/top-bar.latte');
 
