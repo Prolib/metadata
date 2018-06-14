@@ -1,0 +1,14 @@
+{
+	"name": "prolib/metadata",
+	"type": "library",
+	"autoload": {
+		"psr-4": {
+			"ProLib\\Metadata\\": ["src/"]
+		}
+	},
+	"require-dev": {
+		"nette/application": "^3.0",
+		"nette/di": "^3.0"
+	},
+	"minimum-stability": "dev"
+}
