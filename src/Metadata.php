@@ -44,6 +44,12 @@ class Metadata implements IMetadata {
 	/** @var string */
 	private $facebookApi;
 
+	/** @var bool */
+	private $noFollow = false;
+
+	/** @var bool */
+	private $noIndex = false;
+
 	public function addToTitle(string $append): void {
 		$this->addTitle = $append;
 	}
@@ -92,6 +98,14 @@ class Metadata implements IMetadata {
 		$this->facebookApi = $facebookApi;
 	}
 
+	public function setNoFollow(bool $noFollow = true): void {
+		$this->noFollow = $noFollow;
+	}
+
+	public function setNoIndex(bool $noIndex = true): void {
+		$this->noIndex = $noIndex;
+	}
+
 	//
 
 	public function getThemeColor(): ?string {
@@ -136,6 +150,14 @@ class Metadata implements IMetadata {
 
 	public function getFacebookApi(): ?string {
 		return $this->facebookApi;
+	}
+
+	public function getNoFollow(): bool {
+		return $this->noFollow;
+	}
+
+	public function getNoIndex(): bool {
+		return $this->noIndex;
 	}
 
 }

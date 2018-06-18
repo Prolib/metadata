@@ -34,6 +34,10 @@ interface IMetadata {
 
 	public function setFacebookApi(string $facebookApi): void;
 
+	public function setNoFollow(bool $noFollow = true): void;
+
+	public function setNoIndex(bool $noIndex = true): void;
+
 	// getters
 
 	public function getThemeColor(): ?string;
@@ -55,5 +59,9 @@ interface IMetadata {
 	public function getGoogleApi(): ?string;
 
 	public function getFacebookApi(): ?string;
+
+	public function getNoFollow(): bool;
+
+	public function getNoIndex(): bool;
 
 }

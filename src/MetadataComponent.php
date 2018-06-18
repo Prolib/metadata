@@ -54,11 +54,25 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/base.latte');
 
+		$template->robots = $this->getRobots();
+		$template->noFollow = $this->metadata->getNoFollow();
 		$template->title = $this->metadata->getTitle();
 		$template->description = $this->metadata->getDescription();
 		$template->author = $this->metadata->getAuthor();
 
 		$template->render();
+	}
+
+	private function getRobots(): string {
+		$robots = [];
+		if ($this->metadata->getNoIndex()) {
+			$robots[] = 'noindex';
+		}
+		if ($this->metadata->getNoFollow()) {
+			$robots[] = 'nofollow';
+		}
+
+		return implode(', ', $robots);
 	}
 
 	public function renderTopBar(?string $color = null): void {
