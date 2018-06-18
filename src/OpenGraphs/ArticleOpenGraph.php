@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace ProLib\Metadata\OpenGraphs;
 
@@ -30,7 +28,7 @@ class ArticleOpenGraph implements IOpenGraph {
 		$template->title = $metadata->getTitle();
 		$template->ref = $this;
 
-		return (string) $template;
+		return (string)$template;
 	}
 
 }

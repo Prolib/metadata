@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace ProLib\Metadata;
 
@@ -119,7 +117,7 @@ class Metadata implements IMetadata {
 	public function getTitle(): ?string {
 		if ($this->addTitle) {
 			return $this->addTitle . ' | ' . $this->title;
- 		}
+		}
 
 		return $this->title;
 	}
