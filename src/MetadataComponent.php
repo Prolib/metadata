@@ -73,6 +73,16 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template->render();
 	}
 
+	public function renderApi(): void {
+		$template = $this->getTemplate();
+		$template->setFile(__DIR__ . '/templates/api.latte');
+
+		$template->googleApi = $this->metadata->getGoogleApi();
+		$template->facebookApi = $this->metadata->getFacebookApi();
+
+		$template->render();
+	}
+
 	protected function getLink(): string {
 		return $this->link('this');
 	}

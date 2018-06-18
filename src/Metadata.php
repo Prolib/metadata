@@ -38,6 +38,12 @@ class Metadata implements IMetadata {
 	/** @var string */
 	private $siteName;
 
+	/** @var string */
+	private $googleApi;
+
+	/** @var string */
+	private $facebookApi;
+
 	public function addToTitle(string $append): void {
 		$this->addTitle = $append;
 	}
@@ -78,6 +84,16 @@ class Metadata implements IMetadata {
 		$this->siteName = $siteName;
 	}
 
+	public function setGoogleApi(string $googleApi): void {
+		$this->googleApi = $googleApi;
+	}
+
+	public function setFacebookApi(?string $facebookApi): void {
+		$this->facebookApi = $facebookApi;
+	}
+
+	//
+
 	public function getThemeColor(): ?string {
 		return $this->themeColor;
 	}
@@ -112,6 +128,14 @@ class Metadata implements IMetadata {
 
 	public function getImage(): ?string {
 		return $this->image;
+	}
+
+	public function getGoogleApi(): ?string {
+		return $this->googleApi;
+	}
+
+	public function getFacebookApi(): ?string {
+		return $this->facebookApi;
 	}
 
 }

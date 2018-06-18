@@ -22,6 +22,8 @@ class MetadataExtension extends CompilerExtension {
 		'description' => null,
 		'favicon' => null,
 		'siteName' => null,
+		'googleApi' => null,
+		'facebookApi' => null,
 	];
 
 	public function loadConfiguration(): void {

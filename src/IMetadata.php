@@ -30,6 +30,10 @@ interface IMetadata {
 
 	public function setSiteName(string $siteName): void;
 
+	public function setGoogleApi(string $googleApi): void;
+
+	public function setFacebookApi(string $facebookApi): void;
+
 	// getters
 
 	public function getThemeColor(): ?string;
@@ -47,5 +51,9 @@ interface IMetadata {
 	public function getSiteName(): ?string;
 
 	public function getImage(): ?string;
+
+	public function getGoogleApi(): ?string;
+
+	public function getFacebookApi(): ?string;
 
 }
