@@ -2,6 +2,7 @@
 
 namespace ProLib\Metadata;
 
+use Nette\Utils\Strings;
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
 
 class Metadata implements IMetadata {
@@ -49,7 +50,7 @@ class Metadata implements IMetadata {
 	private $noIndex = false;
 
 	public function addToTitle(string $append): void {
-		$this->addTitle = $append;
+		$this->addTitle = trim($append);
 	}
 
 	public function setImage(string $image): void {
@@ -65,11 +66,11 @@ class Metadata implements IMetadata {
 	}
 
 	public function setTitle(string $title): void {
-		$this->title = $title;
+		$this->title = trim($title);
 	}
 
 	public function setDescription(string $description): void {
-		$this->description = $description;
+		$this->description = Strings::substring(trim($description), 0, 300);
 	}
 
 	public function setUrl(?string $url): void {
@@ -85,7 +86,7 @@ class Metadata implements IMetadata {
 	}
 
 	public function setSiteName(string $siteName): void {
-		$this->siteName = $siteName;
+		$this->siteName = trim($siteName);
 	}
 
 	public function setGoogleApi(string $googleApi): void {

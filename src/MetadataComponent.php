@@ -17,6 +17,10 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		return $this->metadata;
 	}
 
+	public function renderTitle(): void {
+		echo htmlspecialchars($this->metadata->getTitle(), ENT_QUOTES);
+	}
+
 	public function renderOpenGraph(): void {
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/open-graph.latte');
