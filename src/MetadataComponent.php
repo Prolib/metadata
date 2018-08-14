@@ -41,7 +41,7 @@ class MetadataComponent extends Control implements IMetadataComponent {
 	}
 
 	public function renderFavicon(): void {
-		if ($this->metadata->getFavicon()) {
+		if (!$this->metadata->getFavicon()) {
 			return;
 		}
 		$template = $this->getTemplate();
