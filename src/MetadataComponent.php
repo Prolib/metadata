@@ -100,7 +100,7 @@ class MetadataComponent extends Control implements IMetadataComponent {
 	}
 
 	protected function getLink(): string {
-		return $this->link('this');
+		return $this->link('//this');
 	}
 
 }
