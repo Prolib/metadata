@@ -20,6 +20,10 @@ interface IMetadata {
 
 	public function setDescription(string $description): void;
 
+	public function setTwitterSite(?string $twitterSite): void;
+
+	public function setTwitterCreator(?string $twitterCreator): void;
+
 	public function setUrl(?string $url): void;
 
 	public function setOpenGraph(IOpenGraph $openGraph): void;
@@ -45,6 +49,10 @@ interface IMetadata {
 	public function getTitle(): ?string;
 
 	public function getDescription(): ?string;
+
+	public function getTwitterSite(): ?string;
+
+	public function getTwitterCreator(): ?string;
 
 	public function getOpenGraph(): ?IOpenGraph;
 

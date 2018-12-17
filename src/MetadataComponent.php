@@ -28,6 +28,8 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template->link = $this->getLink();
 		$template->description = $this->metadata->getDescription();
 		$template->title = $this->metadata->getTitle();
+		$template->twitterSite = $this->metadata->getTwitterSite();
+		$template->twitterCreator = $this->metadata->getTwitterCreator();
 		$template->type = $this->metadata->getOpenGraph() ? $this->metadata->getOpenGraph()->getType() : 'website';
 		$template->image = $this->metadata->getOpenGraph() ?
 			$this->metadata->getOpenGraph()->getImage() : $this->metadata->getImage();

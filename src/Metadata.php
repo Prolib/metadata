@@ -49,6 +49,12 @@ class Metadata implements IMetadata {
 	/** @var bool */
 	private $noIndex = false;
 
+	/** @var string|null */
+	private $twitterSite;
+
+	/** @var string|null */
+	private $twitterCreator;
+
 	public function addToTitle(string $append): void {
 		$this->addTitle = trim($append);
 	}
@@ -71,6 +77,14 @@ class Metadata implements IMetadata {
 
 	public function setDescription(string $description): void {
 		$this->description = Strings::substring(trim($description), 0, 300);
+	}
+
+	public function setTwitterSite(?string $twitterSite): void {
+		$this->twitterSite = $twitterSite;
+	}
+
+	public function setTwitterCreator(?string $twitterCreator): void {
+		$this->twitterCreator = $twitterCreator;
 	}
 
 	public function setUrl(?string $url): void {
@@ -125,6 +139,14 @@ class Metadata implements IMetadata {
 
 	public function getDescription(): ?string {
 		return $this->description;
+	}
+
+	public function getTwitterSite(): ?string {
+		return $this->twitterSite;
+	}
+
+	public function getTwitterCreator(): ?string {
+		return $this->twitterCreator;
 	}
 
 	public function getOpenGraph(): ?IOpenGraph {

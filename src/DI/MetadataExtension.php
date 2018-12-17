@@ -17,6 +17,7 @@ class MetadataExtension extends CompilerExtension {
 		'image' => null,
 		'themeColor' => null,
 		'author' => null,
+		'twitterSite' => null,
 		'description' => null,
 		'favicon' => null,
 		'siteName' => null,
@@ -45,7 +46,7 @@ class MetadataExtension extends CompilerExtension {
 				continue;
 			}
 
-			$setup[] = new Statement('set' . ucfirst($name), [$value]);
+			$setup[] = new Statement('set' . ucfirst($name), [$this->getContainerBuilder()::literal('?', [$value])]);
 		}
 
 		return $setup;

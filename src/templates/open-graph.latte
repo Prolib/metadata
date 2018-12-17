@@ -1,7 +1,15 @@
 <meta property="og:title" content="{$title}">
-<meta property="og:image" content="{$image}">
+<meta n:if="$image" property="og:image" content="{$image}">
 <meta property="og:description" content="{$description}">
 <meta property="og:type" content="{$type}">
 <meta property="og:url" content="{$link}">
+
+{* twitter *}
+<meta name="twitter:card" content="summary_large_image">
+<meta n:if="$twitterSite" name="twitter:site" content="{$twitterSite}">
+<meta n:if="$twitterCreator" name="twitter:site" content="{$twitterCreator}">
+<meta property="twitter:title" content="{$title}">
+<meta n:if="$image" property="twitter:image" content="{$image}">
+<meta property="twitter:description" content="{$description}">
 
 {$og|noescape}
