@@ -2,7 +2,8 @@
 
 namespace ProLib\Metadata;
 
-interface IMetadataComponent {
+interface IMetadataComponent 
+{
 
 	public function getMetadata(): IMetadata;
 

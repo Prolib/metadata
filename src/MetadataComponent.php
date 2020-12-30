@@ -3,25 +3,30 @@
 namespace ProLib\Metadata;
 
 use Nette\Application\UI\Control;
+use Nette\Utils\Strings;
 
-class MetadataComponent extends Control implements IMetadataComponent {
+class MetadataComponent extends Control implements IMetadataComponent 
+{
 
-	/** @var IMetadata */
-	private $metadata;
+	private IMetadata $metadata;
 
-	public function __construct(IMetadata $metadata) {
+	public function __construct(IMetadata $metadata)
+	{
 		$this->metadata = $metadata;
 	}
 
-	public function getMetadata(): IMetadata {
+	public function getMetadata(): IMetadata
+	{
 		return $this->metadata;
 	}
 
-	public function renderTitle(): void {
+	public function renderTitle(): void
+	{
 		echo htmlspecialchars($this->metadata->getTitle(), ENT_QUOTES);
 	}
 
-	public function renderOpenGraph(): void {
+	public function renderOpenGraph(): void
+	{
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/open-graph.latte');
 
@@ -30,19 +35,15 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template->title = $this->metadata->getTitle();
 		$template->twitterSite = $this->metadata->getTwitterSite();
 		$template->twitterCreator = $this->metadata->getTwitterCreator();
-		$template->type = $this->metadata->getOpenGraph() ? $this->metadata->getOpenGraph()->getType() : 'website';
-		$template->image = $this->metadata->getOpenGraph() ?
-			$this->metadata->getOpenGraph()->getImage() : $this->metadata->getImage();
-
-		$template->og = null;
-		if ($this->metadata->getOpenGraph()) {
-			$template->og = $this->metadata->getOpenGraph()->templateToString($this->createTemplate(), $this->metadata);
-		}
+		$template->type = $this->metadata->getOpenGraph()?->getType() ?? 'website';
+		$template->image = $this->metadata->getOpenGraph()?->getImage() ?? $this->metadata->getImage();
+		$template->og = $this->metadata->getOpenGraph()?->templateToString($this->createTemplate(), $this->metadata);
 
 		$template->render();
 	}
 
-	public function renderFavicon(): void {
+	public function renderFavicon(): void
+	{
 		if (!$this->metadata->getFavicon()) {
 			return;
 		}
@@ -54,7 +55,17 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template->render();
 	}
 
-	public function render(): void {
+	public function render(): void
+	{
+		$this->renderBase();
+		$this->renderOpenGraph();
+		$this->renderTopBar();
+		$this->renderFavicon();
+		$this->renderApi();
+	}
+
+	public function renderBase(): void
+	{
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/base.latte');
 
@@ -67,7 +78,8 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template->render();
 	}
 
-	private function getRobots(): string {
+	private function getRobots(): string
+	{
 		$robots = [];
 		if ($this->metadata->getNoIndex()) {
 			$robots[] = 'noindex';
@@ -83,6 +95,7 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		if (!$color && !$this->metadata->getThemeColor()) {
 			return;
 		}
+
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/top-bar.latte');
 
@@ -101,7 +114,8 @@ class MetadataComponent extends Control implements IMetadataComponent {
 		$template->render();
 	}
 
-	protected function getLink(): string {
+	protected function getLink(): string
+	{
 		return $this->link('//this');
 	}
 

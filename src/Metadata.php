@@ -4,180 +4,231 @@ namespace ProLib\Metadata;
 
 use Nette\Utils\Strings;
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
+use WebChemistry\ImageStorage\Entity\EmptyImage;
+use WebChemistry\ImageStorage\Entity\PersistentImageInterface;
+use WebChemistry\ImageStorage\LinkGeneratorInterface;
 
-class Metadata implements IMetadata {
+class Metadata implements IMetadata
+{
 
-	/** @var string */
-	private $title;
+	private ?string $title = null;
 
-	/** @var string */
-	private $addTitle;
+	private ?string $titleComposite = null;
 
-	/** @var string */
-	private $image;
+	private ?string $image = null;
 
-	/** @var string */
-	private $themeColor;
+	private ?string $themeColor = null;
 
-	/** @var string */
-	private $author;
+	private ?string $author = null;
 
-	/** @var string */
-	private $description;
+	private ?string $description = null;
 
-	/** @var string */
-	private $url;
+	private ?string $url = null;
 
-	/** @var IOpenGraph */
-	private $openGraph;
+	private ?IOpenGraph $openGraph = null;
 
-	/** @var string */
-	private $favicon;
+	private ?string $favicon = null;
 
-	/** @var string */
-	private $siteName;
+	private ?string $siteName = null;
 
-	/** @var string */
-	private $googleApi;
+	private ?string $googleApi = null;
 
-	/** @var string */
-	private $facebookApi;
+	private ?string $facebookApi = null;
 
-	/** @var bool */
-	private $noFollow = false;
+	private bool $noFollow = false;
 
-	/** @var bool */
-	private $noIndex = false;
+	private bool $noIndex = false;
 
-	/** @var string|null */
-	private $twitterSite;
+	private ?string $twitterSite = null;
 
-	/** @var string|null */
-	private $twitterCreator;
+	private ?string $twitterCreator = null;
 
-	public function addToTitle(string $append): void {
-		$this->addTitle = trim($append);
+	private ?LinkGeneratorInterface $linkGenerator;
+
+	public function __construct(?LinkGeneratorInterface $linkGenerator)
+	{
+		$this->linkGenerator = $linkGenerator;
 	}
 
-	public function setImage(string $image): void {
+	public function setTitleComposite(string $titleComposite): void
+	{
+		$this->titleComposite = $titleComposite;
+	}
+
+	public function addToTitle(string $title): void
+	{
+		$title = trim($title);
+
+		if ($this->titleComposite) {
+			$this->title = sprintf($this->titleComposite, $title);
+		} else {
+			$this->title = $title;
+		}
+	}
+
+	public function setImage(string $image): void
+	{
 		$this->image = $image;
 	}
 
-	public function setThemeColor(string $color): void {
+	public function setImageResource(?PersistentImageInterface $persistentImage, ?string $filter = null): void
+	{
+		if (!$persistentImage) {
+			if ($this->image) {
+				return;
+			}
+
+			$persistentImage = new EmptyImage();
+		}
+
+		if ($filter) {
+			$persistentImage = $persistentImage->withFilter($filter);
+		}
+
+		if ($link = $this->linkGenerator?->link($persistentImage)) {
+			$this->setImage($link);
+		}
+	}
+
+	public function setThemeColor(string $color): void
+	{
 		$this->themeColor = $color;
 	}
 
-	public function setAuthor(string $author): void {
+	public function setAuthor(string $author): void
+	{
 		$this->author = $author;
 	}
 
-	public function setTitle(string $title): void {
+	public function setTitle(string $title): void
+	{
 		$this->title = trim($title);
 	}
 
-	public function setDescription(string $description): void {
+	public function setDescription(string $description): void
+	{
 		$this->description = Strings::substring(trim($description), 0, 300);
 	}
 
-	public function setTwitterSite(?string $twitterSite): void {
+	public function setTwitterSite(?string $twitterSite): void
+	{
 		$this->twitterSite = $twitterSite;
 	}
 
-	public function setTwitterCreator(?string $twitterCreator): void {
+	public function setTwitterCreator(?string $twitterCreator): void
+	{
 		$this->twitterCreator = $twitterCreator;
 	}
 
-	public function setUrl(?string $url): void {
+	public function setUrl(?string $url): void
+	{
 		$this->url = $url;
 	}
 
-	public function setOpenGraph(IOpenGraph $openGraph): void {
+	public function setOpenGraph(IOpenGraph $openGraph): void
+	{
 		$this->openGraph = $openGraph;
 	}
 
-	public function setFavicon(string $favicon): void {
+	public function setFavicon(string $favicon): void
+	{
 		$this->favicon = $favicon;
 	}
 
-	public function setSiteName(string $siteName): void {
+	public function setSiteName(string $siteName): void
+	{
 		$this->siteName = trim($siteName);
 	}
 
-	public function setGoogleApi(string $googleApi): void {
+	public function setGoogleApi(string $googleApi): void
+	{
 		$this->googleApi = $googleApi;
 	}
 
-	public function setFacebookApi(?string $facebookApi): void {
+	public function setFacebookApi(?string $facebookApi): void
+	{
 		$this->facebookApi = $facebookApi;
 	}
 
-	public function setNoFollow(bool $noFollow = true): void {
+	public function setNoFollow(bool $noFollow = true): void
+	{
 		$this->noFollow = $noFollow;
 	}
 
-	public function setNoIndex(bool $noIndex = true): void {
+	public function setNoIndex(bool $noIndex = true): void
+	{
 		$this->noIndex = $noIndex;
 	}
 
 	//
 
-	public function getThemeColor(): ?string {
+	public function getThemeColor(): ?string
+	{
 		return $this->themeColor;
 	}
 
-	public function getAuthor(): ?string {
+	public function getAuthor(): ?string
+	{
 		return $this->author;
 	}
 
-	public function getTitle(): ?string {
-		if ($this->addTitle) {
-			return $this->addTitle . ' | ' . $this->title;
-		}
-
+	public function getTitle(): ?string
+	{
 		return $this->title;
 	}
 
-	public function getDescription(): ?string {
+	public function getDescription(): ?string
+	{
 		return $this->description;
 	}
 
-	public function getTwitterSite(): ?string {
+	public function getTwitterSite(): ?string
+	{
 		return $this->twitterSite;
 	}
 
-	public function getTwitterCreator(): ?string {
+	public function getTwitterCreator(): ?string
+	{
 		return $this->twitterCreator;
 	}
 
-	public function getOpenGraph(): ?IOpenGraph {
+	public function getOpenGraph(): ?IOpenGraph
+	{
 		return $this->openGraph;
 	}
 
-	public function getFavicon(): ?string {
+	public function getFavicon(): ?string
+	{
 		return $this->favicon;
 	}
 
-	public function getSiteName(): ?string {
+	public function getSiteName(): ?string
+	{
 		return $this->siteName;
 	}
 
-	public function getImage(): ?string {
+	public function getImage(): ?string
+	{
 		return $this->image;
 	}
 
-	public function getGoogleApi(): ?string {
+	public function getGoogleApi(): ?string
+	{
 		return $this->googleApi;
 	}
 
-	public function getFacebookApi(): ?string {
+	public function getFacebookApi(): ?string
+	{
 		return $this->facebookApi;
 	}
 
-	public function getNoFollow(): bool {
+	public function getNoFollow(): bool
+	{
 		return $this->noFollow;
 	}
 
-	public function getNoIndex(): bool {
+	public function getNoIndex(): bool
+	{
 		return $this->noIndex;
 	}
 

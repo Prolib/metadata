@@ -3,12 +3,18 @@
 namespace ProLib\Metadata;
 
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
+use WebChemistry\ImageStorage\Entity\PersistentImageInterface;
 
-interface IMetadata {
+interface IMetadata
+{
 
 	public function addToTitle(string $append): void;
 
 	// setters
+
+	public function setImageResource(?PersistentImageInterface $persistentImage, ?string $filter = null): void;
+
+	public function setTitleComposite(string $titleComposite): void;
 
 	public function setImage(string $image): void;
 
