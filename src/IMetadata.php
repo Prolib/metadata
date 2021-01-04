@@ -2,6 +2,7 @@
 
 namespace ProLib\Metadata;
 
+use ProLib\Metadata\Entity\Google;
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
 use WebChemistry\ImageStorage\Entity\PersistentImageInterface;
 
@@ -38,8 +39,6 @@ interface IMetadata
 
 	public function setSiteName(string $siteName): void;
 
-	public function setGoogleApi(string $googleApi): void;
-
 	public function setFacebookApi(string $facebookApi): void;
 
 	public function setNoFollow(bool $noFollow = true): void;
@@ -62,13 +61,13 @@ interface IMetadata
 
 	public function getOpenGraph(): ?IOpenGraph;
 
+	public function getGoogle(): ?Google;
+
 	public function getFavicon(): ?string;
 
 	public function getSiteName(): ?string;
 
 	public function getImage(): ?string;
-
-	public function getGoogleApi(): ?string;
 
 	public function getFacebookApi(): ?string;
 

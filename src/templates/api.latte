@@ -1,15 +1,3 @@
-{if $googleApi}
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id={$googleApi}"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
-
-		gtag('config', {$googleApi});
-	</script>
-{/if}
-
 {if $facebookApi}
 	<script>
 		window.fbAsyncInit = function() {

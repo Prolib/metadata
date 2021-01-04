@@ -3,6 +3,7 @@
 namespace ProLib\Metadata;
 
 use Nette\Utils\Strings;
+use ProLib\Metadata\Entity\Google;
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
 use WebChemistry\ImageStorage\Entity\EmptyImage;
 use WebChemistry\ImageStorage\Entity\PersistentImageInterface;
@@ -31,8 +32,6 @@ class Metadata implements IMetadata
 
 	private ?string $siteName = null;
 
-	private ?string $googleApi = null;
-
 	private ?string $facebookApi = null;
 
 	private bool $noFollow = false;
@@ -45,9 +44,12 @@ class Metadata implements IMetadata
 
 	private ?LinkGeneratorInterface $linkGenerator;
 
-	public function __construct(?LinkGeneratorInterface $linkGenerator)
+	private ?Google $google;
+
+	public function __construct(?LinkGeneratorInterface $linkGenerator, ?Google $google)
 	{
 		$this->linkGenerator = $linkGenerator;
+		$this->google = $google;
 	}
 
 	public function setTitleComposite(string $titleComposite): void
@@ -140,11 +142,6 @@ class Metadata implements IMetadata
 		$this->siteName = trim($siteName);
 	}
 
-	public function setGoogleApi(string $googleApi): void
-	{
-		$this->googleApi = $googleApi;
-	}
-
 	public function setFacebookApi(?string $facebookApi): void
 	{
 		$this->facebookApi = $facebookApi;
@@ -161,6 +158,11 @@ class Metadata implements IMetadata
 	}
 
 	//
+
+	public function getGoogle(): ?Google
+	{
+		return $this->google;
+	}
 
 	public function getThemeColor(): ?string
 	{
@@ -210,11 +212,6 @@ class Metadata implements IMetadata
 	public function getImage(): ?string
 	{
 		return $this->image;
-	}
-
-	public function getGoogleApi(): ?string
-	{
-		return $this->googleApi;
 	}
 
 	public function getFacebookApi(): ?string

@@ -5,7 +5,7 @@ namespace ProLib\Metadata;
 use Nette\Application\UI\Control;
 use Nette\Utils\Strings;
 
-class MetadataComponent extends Control implements IMetadataComponent 
+class MetadataComponent extends Control implements IMetadataComponent
 {
 
 	private IMetadata $metadata;
@@ -23,6 +23,43 @@ class MetadataComponent extends Control implements IMetadataComponent
 	public function renderTitle(): void
 	{
 		echo htmlspecialchars($this->metadata->getTitle(), ENT_QUOTES);
+	}
+
+	public function render(): void
+	{
+		$this->renderBase();
+		$this->renderOpenGraph();
+		$this->renderTopBar();
+		$this->renderFavicon();
+		$this->renderApi();
+		$this->renderGoogle();
+	}
+
+	public function renderBody(): void
+	{
+		$this->renderGoogleBody();
+	}
+
+	public function renderGoogle(): void
+	{
+		$template = $this->getTemplate();
+		$template->setFile(__DIR__ . '/templates/google.latte');
+
+		$template->analytics = $this->metadata->getGoogle()?->getAnalytics();
+		$template->tagManager = $this->metadata->getGoogle()?->getTagManager();
+		$template->siteVerification = $this->metadata->getGoogle()?->getSiteVerification();
+
+		$template->render();
+	}
+
+	public function renderGoogleBody(): void
+	{
+		$template = $this->getTemplate();
+		$template->setFile(__DIR__ . '/templates/google.body.latte');
+
+		$template->tagManager = $this->metadata->getGoogle()?->getTagManager();
+
+		$template->render();
 	}
 
 	public function renderOpenGraph(): void
@@ -53,15 +90,6 @@ class MetadataComponent extends Control implements IMetadataComponent
 		$template->favicon = $this->metadata->getFavicon();
 
 		$template->render();
-	}
-
-	public function render(): void
-	{
-		$this->renderBase();
-		$this->renderOpenGraph();
-		$this->renderTopBar();
-		$this->renderFavicon();
-		$this->renderApi();
 	}
 
 	public function renderBase(): void
@@ -108,7 +136,6 @@ class MetadataComponent extends Control implements IMetadataComponent
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/api.latte');
 
-		$template->googleApi = $this->metadata->getGoogleApi();
 		$template->facebookApi = $this->metadata->getFacebookApi();
 
 		$template->render();

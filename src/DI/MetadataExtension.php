@@ -6,6 +6,7 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
+use ProLib\Metadata\Entity\Google;
 use ProLib\Metadata\IMetadata;
 use ProLib\Metadata\IMetadataComponent;
 use ProLib\Metadata\Metadata;
@@ -47,12 +48,23 @@ final class MetadataExtension extends CompilerExtension {
 
 			'api' => Expect::structure([
 				'facebook' => Expect::string()->nullable(),
-				'google' => Expect::string()->nullable(),
 			]),
 
 			'twitter' => Expect::structure([
 				'site' => Expect::string()->nullable(),
 			]),
+
+			'google' => Expect::structure([
+				'analytics' => Expect::structure([
+					'enabled' => Expect::bool(true),
+					'id' => Expect::string(),
+				]),
+				'tagManager' => Expect::structure([
+					'enabled' => Expect::bool(true),
+					'id' => Expect::string(),
+				]),
+				'siteVerification' => Expect::string(),
+			])
 		]);
 	}
 
@@ -68,6 +80,14 @@ final class MetadataExtension extends CompilerExtension {
 		$builder->addDefinition($this->prefix('metadata.component'))
 			->setFactory(MetadataComponent::class)
 			->setType(IMetadataComponent::class);
+
+		$cfg = $config->google;
+		$builder->addDefinition($this->prefix('google'))
+			->setFactory(Google::class, [
+				$cfg->analytics->enabled ? $cfg->analytics->id : null,
+				$cfg->tagManager->enabled ? $cfg->tagManager->id : null,
+				$cfg->siteVerification,
+			]);
 	}
 
 	protected function prepareSetup(stdClass $config): array {
@@ -76,18 +96,9 @@ final class MetadataExtension extends CompilerExtension {
 		$this->fromConfig((array) $config->meta, $setup);
 		$this->fromConfig((array) $config->mobile, $setup);
 		$this->fromConfig([
-			'googleApi' => $config->api->google,
 			'facebookApi' => $config->api->facebook,
 			'twitterSite' => $config->twitter->site,
 		], $setup);
-
-		/*foreach ($config as $name => $value) {
-			if ($value === null) {
-				continue;
-			}
-
-			$setup[] = new Statement('set' . ucfirst($name), [$this->getContainerBuilder()::literal('?', [$value])]);
-		}*/
 
 		return $setup;
 	}
