@@ -81,13 +81,21 @@ class MetadataComponent extends Control implements IMetadataComponent
 
 	public function renderFavicon(): void
 	{
-		if (!$this->metadata->getFavicon()) {
+		$favicon = $this->metadata->getFavicon();
+		if (!$favicon) {
 			return;
 		}
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/favicon.latte');
 
-		$template->favicon = $this->metadata->getFavicon();
+		$suffix = ($pos = strrpos($favicon, '.')) !== false ? strtolower(substr($favicon, $pos + 1)) : null;
+
+		$template->type = match ($suffix) {
+			'jpg' => 'image/jpeg',
+			'png' => 'image/png',
+			default => 'image/x-icon'
+		};
+		$template->favicon = $favicon;
 
 		$template->render();
 	}
