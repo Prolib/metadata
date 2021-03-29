@@ -5,9 +5,9 @@ namespace ProLib\Metadata;
 use Nette\Utils\Strings;
 use ProLib\Metadata\Entity\Google;
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
-use WebChemistry\ImageStorage\Entity\EmptyImage;
-use WebChemistry\ImageStorage\Entity\PersistentImageInterface;
-use WebChemistry\ImageStorage\LinkGeneratorInterface;
+use Contributte\Imagist\Entity\EmptyImage;
+use Contributte\Imagist\Entity\PersistentImageInterface;
+use Contributte\Imagist\LinkGeneratorInterface;
 
 class Metadata implements IMetadata
 {

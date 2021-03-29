@@ -4,7 +4,7 @@ namespace ProLib\Metadata;
 
 use ProLib\Metadata\Entity\Google;
 use ProLib\Metadata\OpenGraphs\IOpenGraph;
-use WebChemistry\ImageStorage\Entity\PersistentImageInterface;
+use Contributte\Imagist\Entity\PersistentImageInterface;
 
 interface IMetadata
 {
